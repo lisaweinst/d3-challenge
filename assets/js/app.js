@@ -157,9 +157,9 @@ function updateToolTip(currentXAxis, currentYAxis, circlesGroup) {
 }
 
 //retrieve csv data and execute everything below
-d3.csv("./assets/data/data.csv").then(function(censusData) {
+d3.csv("./assets/data/data.csv").then(function(healthcareData) {
 
-    console.log(censusData);
+    console.log(healthcareData);
 
     //parse data
     healthcareData.forEach(function(data) {
@@ -332,7 +332,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
                 //replace new value
                 currentYAxis = value;
                 //update y scale for new data
-                yLinearScale = yScale(censusData, currentYAxis);
+                yLinearScale = yScale(healthcareData, currentYAxis);
                 //transitiong the circle values
                 yAxis = renderAxesY(yLinearScale, yAxis);
                 //update circles with new y values

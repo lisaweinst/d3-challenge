@@ -51,8 +51,8 @@ function xScale(healthcareData, currentXAxis) {
 function yScale(healthcareData, currentYAxis) {
     //create scales
     var yLinearScale = d3.scaleLinear()
-        .domain([d3.min(censusData, d => d[currentYAxis]) * 0.8,
-            d3.max(censusData, d => d[currentYAxis]) * 1.2
+        .domain([d3.min(healthcareData, d => d[currentYAxis]) * 0.8,
+            d3.max(healthcareData, d => d[currentYAxis]) * 1.2
         ])
         .range([height, 0]);
 

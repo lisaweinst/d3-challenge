@@ -210,8 +210,14 @@ d3.csv("./assets/data/data.csv").then(function(healthcareData) {
         .attr("x", d => xLinearScale(d[currentXAxis]))
         .attr("y", d => yLinearScale(d[currentYAxis]))
         .attr("dy", 3)
-        .attr("font-size", "10px")
         .text(function(d) { return d.abbr });
+    // get the state abbr to appear on plot circles
+     var textGroup = chartGroup.selectAll("text.abbr")
+        .data(healthData)
+        .enter()
+        .append("text")
+        .classed("abbr", true)
+        .text(d => d.abbr)
 
     //create group for 3 x-axis labels
     var xLabelsGroup = chartGroup.append("g")

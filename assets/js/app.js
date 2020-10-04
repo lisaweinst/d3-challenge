@@ -48,7 +48,7 @@ function xScale(censusData, currentXAxis) {
 }
 
 //function used for updating y-scale var upon clicking on axis label
-function yScale(censusData, currentYAxis) {
+function yScale(healthcareData, currentYAxis) {
     //create scales
     var yLinearScale = d3.scaleLinear()
         .domain([d3.min(censusData, d => d[currentYAxis]) * 0.8,
@@ -162,7 +162,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
     console.log(censusData);
 
     //parse data
-    censusData.forEach(function(data) {
+    healthcareData.forEach(function(data) {
         data.obesity = +data.obesity;
         data.income = +data.income;
         data.smokes = +data.smokes;
@@ -172,8 +172,8 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
     });
 
     //create first linear scales
-    var xLinearScale = xScale(censusData, currentXAxis);
-    var yLinearScale = yScale(censusData, currentYAxis);
+    var xLinearScale = xScale(healthcareData, currentXAxis);
+    var yLinearScale = yScale(healthcareData, currentYAxis);
 
     //create initial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -192,7 +192,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
 
     //append initial circles
     var circlesGroup = chartGroup.selectAll("circle")
-        .data(censusData)
+        .data(healthcareData)
         .enter()
         .append("circle")
         .classed("stateCircle", true)
@@ -203,7 +203,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
 
     //append initial text
     var textGroup = chartGroup.selectAll(".stateText")
-        .data(censusData)
+        .data(healthcareData)
         .enter()
         .append("text")
         .classed("stateText", true)
@@ -290,7 +290,7 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
                 currentXAxis = value;
 
                 //update x scale for new data
-                xLinearScale = xScale(censusData, currentXAxis);
+                xLinearScale = xScale(healthcareData, currentXAxis);
 
                 //update x axis with transition
                 xAxis = renderAxesX(xLinearScale, xAxis);
@@ -331,22 +331,16 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
 
                 //replace new value
                 currentYAxis = value;
-
                 //update y scale for new data
                 yLinearScale = yScale(censusData, currentYAxis);
-
-                //update x axis with transition
+                //transitiong the circle values
                 yAxis = renderAxesY(yLinearScale, yAxis);
-
                 //update circles with new y values
                 circlesXY = renderCircles(circlesXY, xLinearScale, currentXAxis, yLinearScale, currentYAxis);
-
                 //update text with new y values
                 textGroup = renderText(textGroup, xLinearScale, currentXAxis, yLinearScale, currentYAxis)
-
-                //update tooltips with new info
+                //updating the tool tips
                 circlesXY = updateToolTip(currentXAxis, currentYAxis, circlesXY);
-
                 //change classes to change bold text
                 if (currentYAxis === "obesity") {
                     obesityLabel.classed("active", true).classed("inactive", false);
